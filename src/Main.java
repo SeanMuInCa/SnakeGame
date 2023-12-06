@@ -19,9 +19,11 @@ public class Main
     final static int height = 800;
     public static void main(String[] args)
     {
-        createWindow();
+        JFrame jf = createWindow();
+        GamePanel gp = new GamePanel();
+        jf.add(gp);
     }
-    private static void createWindow(){
+    private static JFrame createWindow(){
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int left = (screenSize.width - width) / 2;
         int top = (screenSize.height - height) / 2;
@@ -36,5 +38,6 @@ public class Main
         jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         //set the window visible
         jf.setVisible(true);
+        return jf;
     }
 }

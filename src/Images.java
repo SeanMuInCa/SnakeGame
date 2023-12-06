@@ -1,3 +1,5 @@
+//import com.sun.java.swing.plaf.motif.MotifComboBoxUI;
+
 import javax.swing.*;
 import java.net.URL;
 
@@ -24,6 +26,21 @@ public class Images
     public static URL headUrl = Images.class.getResource("/images/head.png");//build first then you have the out.
     //encapsulate the image into an object
     public static ImageIcon headIcon = new ImageIcon(headUrl);
+
+    //encapsulate the head's url
+    public static URL leftUrl = Images.class.getResource("/images/headLeft.png");//build first then you have the out.
+    //encapsulate the image into an object
+    public static ImageIcon leftIcon = new ImageIcon(leftUrl);
+
+    //encapsulate the head's url
+    public static URL upUrl = Images.class.getResource("/images/headUp.png");//build first then you have the out.
+    //encapsulate the image into an object
+    public static ImageIcon upIcon = new ImageIcon(upUrl);
+
+    //encapsulate the head's url
+    public static URL downUrl = Images.class.getResource("/images/headDown.png");//build first then you have the out.
+    //encapsulate the image into an object
+    public static ImageIcon downIcon = new ImageIcon(downUrl);
 
     //encapsulate the food's url
     public static URL foodUrl = Images.class.getResource("/images/food.png");//build first then you have the out.
