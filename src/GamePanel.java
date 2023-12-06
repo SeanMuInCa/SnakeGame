@@ -27,8 +27,8 @@ public class GamePanel extends JPanel
     int[] snakeY = new int[200];
     int snakeLength;
     int gameStatus;//0 pause 1 running
-    boolean isAlive = true;
-    boolean isRunning = false;// status
+    boolean isAlive;
+    boolean isRunning;// status
     int direction; //0 up 1 right 2 down 3 left
     Timer timer;
     int foodX;
@@ -40,6 +40,9 @@ public class GamePanel extends JPanel
         initBody();
         direction = 1;
         score = 0;
+        isAlive = true;
+        isRunning = false;
+        snakeLength = 3;
     }
 
     public GamePanel()
@@ -55,15 +58,16 @@ public class GamePanel extends JPanel
             @Override
             public void keyPressed(KeyEvent e)
             {
-                if (e.getKeyCode() == 32)
-                {
-
-                }
 //                System.out.println(e.getKeyCode());
                 switch(e.getKeyCode()) {
                     case 32:
                     {
-                        isRunning = !isRunning;
+                        if(isAlive) {
+                            isRunning = !isRunning;
+                        }else{
+                            initSnake();
+                            isAlive = true;
+                        }
                         repaint();
                     }
                     break;
@@ -96,7 +100,7 @@ public class GamePanel extends JPanel
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                if (isRunning)
+                if (isRunning && isAlive)
                 {
                     moving();
                     if(checkCollision()){
@@ -105,13 +109,15 @@ public class GamePanel extends JPanel
                         score++;
                         snakeX[snakeLength - 1] = snakeX[snakeLength - 2];
                         snakeY[snakeLength - 1] = snakeY[snakeLength - 2];
-                        repaint();
                     }
                     if(checkDead()){
                         isAlive = false;
                         isRunning = !isRunning;
+                        initSnake();
                     }
+                    repaint();
                 }
+                repaint();
             }
         });
         timer.start();
