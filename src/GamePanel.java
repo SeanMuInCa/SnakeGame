@@ -18,6 +18,7 @@ import java.awt.event.KeyEvent;
  */
 public class GamePanel extends JPanel
 {
+    int score;
     int snakeSize = 25;
     int titleHeight = 50;
     int gap = snakeSize / 2;
@@ -26,6 +27,7 @@ public class GamePanel extends JPanel
     int[] snakeY = new int[200];
     int snakeLength;
     int gameStatus;//0 pause 1 running
+    boolean isAlive = true;
     boolean isRunning = false;// status
     int direction; //0 up 1 right 2 down 3 left
     Timer timer;
@@ -37,6 +39,7 @@ public class GamePanel extends JPanel
         initHead();
         initBody();
         direction = 1;
+        score = 0;
     }
 
     public GamePanel()
@@ -96,6 +99,18 @@ public class GamePanel extends JPanel
                 if (isRunning)
                 {
                     moving();
+                    if(checkCollision()){
+                        initFood();
+                        snakeLength++;
+                        score++;
+                        snakeX[snakeLength - 1] = snakeX[snakeLength - 2];
+                        snakeY[snakeLength - 1] = snakeY[snakeLength - 2];
+                        repaint();
+                    }
+                    if(checkDead()){
+                        isAlive = false;
+                        isRunning = !isRunning;
+                    }
                 }
             }
         });
@@ -105,7 +120,22 @@ public class GamePanel extends JPanel
     private void initFood()
     {
         foodX = (int)(Math.random() * 700) + 50;
-        foodY = (int)(Math.random() * 700) + 120;
+        foodY = (int)(Math.random() * 600) + 120;
+    }
+    boolean checkCollision(){
+        if((Math.abs(snakeX[0] - foodX) < snakeSize) && (Math.abs(snakeY[0] - foodY) < snakeSize)){
+            return true;
+        }
+        return false;
+    }
+    boolean checkDead(){
+        for (int i = 1; i < snakeLength; i++)
+        {
+            if((Math.abs(snakeX[0] - snakeX[i]) < snakeSize) && (Math.abs(snakeY[0] - snakeY[i]) < snakeSize)){
+                return true;
+            }
+        }
+        return false;
     }
 
     private void initBody()
@@ -136,14 +166,14 @@ public class GamePanel extends JPanel
         g.setColor(new Color(0, 0, 0));
         g.setFont(new Font("Arial", Font.BOLD, 24));
         g.drawString("Snake", 340, 45);
+        String str = "Score:   " + score * 10;
+        g.drawString(str, 460, 45);
         //draw rect
         g.setColor(new Color(186, 186, 186));
         g.fillRect(gap, gap * 2 + titleHeight, Main.width - gap * 3, Main.height - gap * 5 - titleHeight);
 
         //draw food
         Images.foodIcon.paintIcon(this, g, foodX, foodY);
-        System.out.println(foodX);
-        System.out.println(foodY);
         switch (direction)
         {
             case 0 -> Images.upIcon.paintIcon(this, g, snakeX[0], snakeY[0]);
@@ -159,8 +189,15 @@ public class GamePanel extends JPanel
         {
             g.setColor(new Color(114, 98, 255));
             g.setFont(new Font("Arial", Font.BOLD, 50));
-            g.drawString("Press blank to start!", 150, 400);
+            g.drawString("Press space to start!", 150, 400);
         }
+        /*if (!isAlive)
+        {
+            g.setColor(new Color(114, 98, 255));
+            g.setFont(new Font("Arial", Font.BOLD, 50));
+            g.drawString("DEAD!", 150, 400);
+            g.drawString("Press blank to start!",150,500);
+        }*/
 //        moveRight();
     }
 
