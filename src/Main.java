@@ -31,6 +31,7 @@ public class Main
         JFrame jf = new JFrame();
         //set window title
         jf.setTitle("Snake Game");
+//        jf.setLayout(null);
         //set the window attributes
         jf.setBounds(left, top, width, height);
         jf.setResizable(false);

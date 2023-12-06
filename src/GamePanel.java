@@ -18,6 +18,9 @@ import java.awt.event.KeyEvent;
  */
 public class GamePanel extends JPanel
 {
+    int snakeSize = 25;
+    int titleHeight = 50;
+    int gap = snakeSize / 2;
     //store the x and y for snake
     int[] snakeX = new int[200];
     int[] snakeY = new int[200];
@@ -26,6 +29,8 @@ public class GamePanel extends JPanel
     boolean isRunning = false;// status
     int direction; //0 up 1 right 2 down 3 left
     Timer timer;
+    int foodX;
+    int foodY;
 
     public void initSnake()
     {
@@ -38,6 +43,7 @@ public class GamePanel extends JPanel
     {
         snakeLength = 3;
         initSnake();
+        initFood();
         //set focus on the panel
         this.setFocusable(true);
         //add event listener
@@ -96,6 +102,12 @@ public class GamePanel extends JPanel
         timer.start();
     }
 
+    private void initFood()
+    {
+        foodX = (int)(Math.random() * 700) + 50;
+        foodY = (int)(Math.random() * 700) + 120;
+    }
+
     private void initBody()
     {
         snakeX[1] = 150;
@@ -119,15 +131,19 @@ public class GamePanel extends JPanel
         //draw title
 //        Images.titleIcon.paintIcon(this,g,150,10);
         g.setColor(new Color(255, 255, 255));
-        g.fillRect(10, 10, 770, 50);
+        g.fillRect(gap, gap, Main.width - (gap * 3), titleHeight);
         //set font
         g.setColor(new Color(0, 0, 0));
         g.setFont(new Font("Arial", Font.BOLD, 24));
         g.drawString("Snake", 340, 45);
         //draw rect
         g.setColor(new Color(186, 186, 186));
-        g.fillRect(10, 70, 770, 685);
+        g.fillRect(gap, gap * 2 + titleHeight, Main.width - gap * 3, Main.height - gap * 5 - titleHeight);
 
+        //draw food
+        Images.foodIcon.paintIcon(this, g, foodX, foodY);
+        System.out.println(foodX);
+        System.out.println(foodY);
         switch (direction)
         {
             case 0 -> Images.upIcon.paintIcon(this, g, snakeX[0], snakeY[0]);
@@ -159,10 +175,10 @@ public class GamePanel extends JPanel
         //moving head
         switch (direction)
         {
-            case 0 -> snakeY[0] = snakeY[0] < 100 ? Main.height : snakeY[0] - 25;
-            case 1 -> snakeX[0] = snakeX[0] > Main.width ? 0 : snakeX[0] + 25;
-            case 2 -> snakeY[0] = snakeY[0] > Main.height ? 75 : snakeY[0] + 25;
-            case 3 -> snakeX[0] = snakeX[0] < 0 ? Main.width : snakeX[0] - 25;
+            case 0 -> snakeY[0] = snakeY[0] < gap * 3 + titleHeight ? Main.height - gap * 2 : snakeY[0] - 25;
+            case 1 -> snakeX[0] = snakeX[0] > Main.width - gap * 3 ? gap : snakeX[0] + 25;
+            case 2 -> snakeY[0] = snakeY[0] > Main.height - gap * 3 ? gap * 2 + titleHeight : snakeY[0] + 25;
+            case 3 -> snakeX[0] = snakeX[0] < gap ? Main.width - gap * 3 : snakeX[0] - 25;
         }
         repaint();
     }
