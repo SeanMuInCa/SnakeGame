@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -23,7 +25,10 @@ public class GamePanel extends JPanel
     int gameStatus;//0 pause 1 running
     boolean isRunning = false;// status
     int direction; //0 up 1 right 2 down 3 left
-    public void initSnake(){
+    Timer timer;
+
+    public void initSnake()
+    {
         initHead();
         initBody();
         direction = 1;
@@ -41,13 +46,54 @@ public class GamePanel extends JPanel
             @Override
             public void keyPressed(KeyEvent e)
             {
-                if(e.getKeyCode() == 32){
-                    isRunning = !isRunning;
-//                    System.out.println(isRunning);
-                    repaint();
+                if (e.getKeyCode() == 32)
+                {
+
+                }
+//                System.out.println(e.getKeyCode());
+                switch(e.getKeyCode()) {
+                    case 32:
+                    {
+                        isRunning = !isRunning;
+                        repaint();
+                    }
+                    break;
+                    case 37:
+                    {
+                        direction = 3;
+                    }
+                    break;
+                    case 38:
+                    {
+                        direction = 0;
+                    }
+                    break;
+                    case 39:
+                    {
+                        direction = 1;
+                    }
+                    break;
+                    case 40:
+                    {
+                        direction = 2;
+                    }
+                    break;
                 }
             }
         });
+        timer = new Timer(100, new ActionListener()
+        {
+            //action event listener, every delay time, it will listen
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                if (isRunning)
+                {
+                    moving();
+                }
+            }
+        });
+        timer.start();
     }
 
     private void initBody()
@@ -72,30 +118,52 @@ public class GamePanel extends JPanel
         this.setBackground(new Color(174, 134, 198));
         //draw title
 //        Images.titleIcon.paintIcon(this,g,150,10);
-        g.setColor(new Color(255,255,255));
-        g.fillRect(10,10,770,50);
+        g.setColor(new Color(255, 255, 255));
+        g.fillRect(10, 10, 770, 50);
         //set font
-        g.setColor(new Color(0,0,0));
+        g.setColor(new Color(0, 0, 0));
         g.setFont(new Font("Arial", Font.BOLD, 24));
-        g.drawString("Snake",340,45);
+        g.drawString("Snake", 340, 45);
         //draw rect
         g.setColor(new Color(186, 186, 186));
-        g.fillRect(10,70,770,685);
+        g.fillRect(10, 70, 770, 685);
 
-        switch (direction){
-            case 0 -> Images.upIcon.paintIcon(this,g,snakeX[0],snakeY[0]);
-            case 1 -> Images.headIcon.paintIcon(this,g,snakeX[0],snakeY[0]);
-            case 2 -> Images.downIcon.paintIcon(this,g,snakeX[0],snakeY[0]);
-            case 3 -> Images.leftIcon.paintIcon(this,g,snakeX[0],snakeY[0]);
+        switch (direction)
+        {
+            case 0 -> Images.upIcon.paintIcon(this, g, snakeX[0], snakeY[0]);
+            case 1 -> Images.headIcon.paintIcon(this, g, snakeX[0], snakeY[0]);
+            case 2 -> Images.downIcon.paintIcon(this, g, snakeX[0], snakeY[0]);
+            case 3 -> Images.leftIcon.paintIcon(this, g, snakeX[0], snakeY[0]);
         }
         for (int i = 1; i < snakeLength; i++)
         {
-            Images.bodyIcon.paintIcon(this,g,snakeX[i],snakeY[i]);
+            Images.bodyIcon.paintIcon(this, g, snakeX[i], snakeY[i]);
         }
-        if(!isRunning){
-            g.setColor(new Color(114,98,255));
+        if (!isRunning)
+        {
+            g.setColor(new Color(114, 98, 255));
             g.setFont(new Font("Arial", Font.BOLD, 50));
-            g.drawString("Press blank to start!",150,400);
+            g.drawString("Press blank to start!", 150, 400);
         }
+//        moveRight();
+    }
+
+    private void moving()
+    {
+        //moving body from last to the 1st part
+        for (int i = snakeLength - 1; i > 0; i--)
+        {
+            snakeX[i] = snakeX[i - 1];
+            snakeY[i] = snakeY[i - 1];
+        }
+        //moving head
+        switch (direction)
+        {
+            case 0 -> snakeY[0] = snakeY[0] < 100 ? Main.height : snakeY[0] - 25;
+            case 1 -> snakeX[0] = snakeX[0] > Main.width ? 0 : snakeX[0] + 25;
+            case 2 -> snakeY[0] = snakeY[0] > Main.height ? 75 : snakeY[0] + 25;
+            case 3 -> snakeX[0] = snakeX[0] < 0 ? Main.width : snakeX[0] - 25;
+        }
+        repaint();
     }
 }
