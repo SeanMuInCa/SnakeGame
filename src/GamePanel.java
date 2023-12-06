@@ -119,8 +119,8 @@ public class GamePanel extends JPanel
 
     private void initFood()
     {
-        foodX = (int)(Math.random() * 700) + 50;
-        foodY = (int)(Math.random() * 600) + 120;
+        foodX = ((int)(Math.random() * 30) + 1) * 25;
+        foodY = ((int)(Math.random() * 26) + 4) * 25;
     }
     boolean checkCollision(){
         if((Math.abs(snakeX[0] - foodX) < snakeSize) && (Math.abs(snakeY[0] - foodY) < snakeSize)){
