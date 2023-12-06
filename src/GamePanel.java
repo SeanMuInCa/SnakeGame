@@ -167,7 +167,7 @@ public class GamePanel extends JPanel
         //draw title
 //        Images.titleIcon.paintIcon(this,g,150,10);
         g.setColor(new Color(255, 255, 255));
-        g.fillRect(gap, gap, Main.width - (gap * 3), titleHeight);
+        g.fillRect(gap, gap, StartGame.width - (gap * 3), titleHeight);
         //set font
         g.setColor(new Color(0, 0, 0));
         g.setFont(new Font("Arial", Font.BOLD, 24));
@@ -176,7 +176,7 @@ public class GamePanel extends JPanel
         g.drawString(str, 460, 45);
         //draw rect
         g.setColor(new Color(186, 186, 186));
-        g.fillRect(gap, gap * 2 + titleHeight, Main.width - gap * 3, Main.height - gap * 5 - titleHeight);
+        g.fillRect(gap, gap * 2 + titleHeight, StartGame.width - gap * 3, StartGame.height - gap * 5 - titleHeight);
 
         //draw food
         Images.foodIcon.paintIcon(this, g, foodX, foodY);
@@ -218,10 +218,10 @@ public class GamePanel extends JPanel
         //moving head
         switch (direction)
         {
-            case 0 -> snakeY[0] = snakeY[0] < gap * 3 + titleHeight ? Main.height - gap * 2 : snakeY[0] - 25;
-            case 1 -> snakeX[0] = snakeX[0] > Main.width - gap * 3 ? gap : snakeX[0] + 25;
-            case 2 -> snakeY[0] = snakeY[0] > Main.height - gap * 3 ? gap * 2 + titleHeight : snakeY[0] + 25;
-            case 3 -> snakeX[0] = snakeX[0] < gap ? Main.width - gap * 3 : snakeX[0] - 25;
+            case 0 -> snakeY[0] = snakeY[0] < gap * 3 + titleHeight ? StartGame.height - gap * 2 : snakeY[0] - 25;
+            case 1 -> snakeX[0] = snakeX[0] > StartGame.width - gap * 3 ? gap : snakeX[0] + 25;
+            case 2 -> snakeY[0] = snakeY[0] > StartGame.height - gap * 3 ? gap * 2 + titleHeight : snakeY[0] + 25;
+            case 3 -> snakeX[0] = snakeX[0] < gap ? StartGame.width - gap * 3 : snakeX[0] - 25;
         }
         repaint();
     }

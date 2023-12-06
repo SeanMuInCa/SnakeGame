@@ -12,7 +12,7 @@ import java.awt.*;
  * @author Zhenghua Mu
  * @version 1.0.0
  */
-public class Main
+public class StartGame
 {
     //window size
     final static int width = 800;
