@@ -22,6 +22,7 @@ public class StartGame
         JFrame jf = createWindow();
         GamePanel gp = new GamePanel();
         jf.add(gp);
+        jf.setVisible(true);
     }
     private static JFrame createWindow(){
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -38,7 +39,7 @@ public class StartGame
         //set close window and terminal the app
         jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         //set the window visible
-        jf.setVisible(true);
+
         return jf;
     }
 }
